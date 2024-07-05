@@ -12,12 +12,7 @@ import java.util.concurrent.atomic.AtomicLong;
 public class User {
 
     @Id
-    public AtomicLong id;
+    private AtomicLong id;
 
-    @Column(name = "name")
-    private String name;
-
-    public User(String name){
-        this.name = name;
-    }
+    public User(){}
 }
