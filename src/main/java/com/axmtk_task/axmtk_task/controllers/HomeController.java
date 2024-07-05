@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class HomeController {
 
     @GetMapping("/login")
-    public Object login(){
+    public User login(){
         char[] nm = {'U', 's', '1'};
         return new User(nm);
     }
