@@ -29,9 +29,6 @@ public class Client {
     @Column(name = "employment_information")
     private final String employment_information;
 
-    @Column(name = "credit_amount")
-    private final String credit_amount;
-
     @ManyToOne
     @JoinColumn(name = "contract_id",
             foreignKey = @ForeignKey(name = "contract_id_FK"))
@@ -44,7 +41,6 @@ public class Client {
                   String address,
                   String phone_number,
                   String employment_information,
-                  String credit_amount,
                   Contract сontract) {
 
         this.client_name = client_name;
@@ -53,7 +49,6 @@ public class Client {
         this.address = address;
         this.phone_number = phone_number;
         this.employment_information = employment_information;
-        this.credit_amount = credit_amount;
         this.сontract = сontract;
     }
 }

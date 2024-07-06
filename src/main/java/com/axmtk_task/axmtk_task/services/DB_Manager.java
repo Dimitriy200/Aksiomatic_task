@@ -1,6 +1,7 @@
 package com.axmtk_task.axmtk_task.services;
 
 import com.axmtk_task.axmtk_task.models.Client;
+import com.axmtk_task.axmtk_task.models.Contract;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -9,12 +10,13 @@ import org.hibernate.query.Query;
 
 import java.util.List;
 
-public class UserManager {
+public class DB_Manager {
     SessionFactory sessionFactory;
 
     public void init(){
         this.sessionFactory = new Configuration().
                 addAnnotatedClass(Client.class).
+                addAnnotatedClass(Contract.class).
                 buildSessionFactory();
     }
 
@@ -29,6 +31,14 @@ public class UserManager {
         try (Session session = sessionFactory.openSession()) {
             Transaction transaction = session.beginTransaction();
             session.persist(user);
+            transaction.commit();
+        }
+    }
+
+    public void addContract(Contract contract ) {
+        try (Session session = sessionFactory.openSession()) {
+            Transaction transaction = session.beginTransaction();
+            session.persist(contract);
             transaction.commit();
         }
     }

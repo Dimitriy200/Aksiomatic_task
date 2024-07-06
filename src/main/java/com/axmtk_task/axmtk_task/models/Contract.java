@@ -17,11 +17,15 @@ public class Contract {
     @Column(name = "status")
     private final Boolean status;
 
-    @Column(name = "document")
-    private final Byte document;
+    @Column(name = "contract_data")
+    private final Byte contract_data;
 
-    public Contract(Byte document) {
+    @Column(name = "credit_amount")
+    private final String credit_amount;
+
+    public Contract(Byte contract_data, String credit_amount) {
         this.status = false;
-        this.document = document;
+        this.contract_data = contract_data;
+        this.credit_amount = credit_amount;
     }
 }
