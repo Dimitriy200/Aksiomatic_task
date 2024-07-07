@@ -36,7 +36,7 @@ public class HomeController {
     */
 
     /*
-    http://localhost:8080/application?client_name&passport_data&family_status&address&phone_number&employment_information&credit_amount
+    http://localhost:8080/application?client_name=TestUser&passport_data=12345&family_status=ststusF&address=someAddress&phone_number=888888888&employment_information=someEmplInfo&credit_amount=9999
     */
     @PutMapping("/application")
     public String change_client(@RequestParam("client_name") String client_name,
@@ -47,10 +47,11 @@ public class HomeController {
                                 @RequestParam("employment_information") String employment_information,
                                 @RequestParam("credit_amount") String credit_amount){
 
-        Byte test_byte = 111;
+        Byte contract_data = 111;
         long long_credit_amount = Long.parseLong(credit_amount);
+//        Byte contract_data = Byte.parseByte();
 
-        Contract contract = new Contract(test_byte,
+        Contract contract = new Contract(contract_data,
                 long_credit_amount);
 
         Client client = new Client(client_name,
@@ -59,7 +60,8 @@ public class HomeController {
                                 address,
                                 phone_number,
                                 employment_information,
-                                contract);
+                                contract
+        );
 
         DBManager userManager = new DBManager();
         userManager.init();

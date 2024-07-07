@@ -2,14 +2,14 @@ package com.axmtk_task.axmtk_task.models;
 
 import jakarta.persistence.*;
 
-import static jakarta.persistence.GenerationType.SEQUENCE;
+import static jakarta.persistence.GenerationType.*;
 
 @Entity(name = "Client")
 public class Client {
 
     @Id
-    @GeneratedValue( strategy = SEQUENCE )
-    private Long person_id;
+    @GeneratedValue(strategy = TABLE)
+    private long client_id;
 
     @Column(name = "client_name")
     private final String client_name;
@@ -32,7 +32,7 @@ public class Client {
     @ManyToOne
     @JoinColumn(name = "contract_id",
             foreignKey = @ForeignKey(name = "contract_id_FK"))
-    private Contract сontract;
+    private Contract contract;
 
 
     public Client(String client_name,
@@ -41,7 +41,7 @@ public class Client {
                   String address,
                   String phone_number,
                   String employment_information,
-                  Contract сontract) {
+                  Contract contract) {
 
         this.client_name = client_name;
         this.passport_data = passport_data;
@@ -49,6 +49,6 @@ public class Client {
         this.address = address;
         this.phone_number = phone_number;
         this.employment_information = employment_information;
-        this.сontract = сontract;
+        this.contract = contract;
     }
 }
