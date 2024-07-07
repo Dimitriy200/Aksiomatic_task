@@ -1,11 +1,22 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="style.css">
-    <title>Title</title>
+
+    <link rel="stylesheet" th:href="@{/css/application.css}">
+<!--    <link rel="stylesheet" type="text/css" href="../static/css/application.css">-->
+<!--    <script type="text/javascript" th:href:="@{/js/application.js}}"></script>-->
+
+    <title>Application</title>
 </head>
 <body>
+
+    <form>
+        <h3><label>Фамилия, имя, отчество</label></h3>
+        <p><label>
+            <input type="text">
+        </label></p>
+    </form>
 
     <form>
         <h3><label>Фамилия, имя, отчество</label></h3>
