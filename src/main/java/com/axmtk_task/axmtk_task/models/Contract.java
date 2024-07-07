@@ -23,9 +23,9 @@ public class Contract {
     private final Byte contract_data;
 
     @Column(name = "credit_amount")
-    private final short credit_amount;
+    private final long credit_amount;
 
-    public Contract(Byte contract_data, short credit_amount) {
+    public Contract(Byte contract_data, long credit_amount) {
         this.status = false;
         this.contract_data = contract_data;
         this.credit_amount = credit_amount;

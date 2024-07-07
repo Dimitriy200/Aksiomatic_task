@@ -20,7 +20,6 @@ public class HomeController {
     */
     @GetMapping("/application")
     public String application(Model model){
-//        model.addAttribute("message", "Welcome to our website!");
         return "application";
     }
 
@@ -46,11 +45,13 @@ public class HomeController {
                                 @RequestParam("address") String address,
                                 @RequestParam("phone_number") String phone_number,
                                 @RequestParam("employment_information") String employment_information,
-                                @RequestParam("credit_amount") short credit_amount){
+                                @RequestParam("credit_amount") String credit_amount){
 
         Byte test_byte = 111;
+        long long_credit_amount = Long.parseLong(credit_amount);
+
         Contract contract = new Contract(test_byte,
-                                    credit_amount);
+                long_credit_amount);
 
         Client client = new Client(client_name,
                                 passport_data,
@@ -65,7 +66,7 @@ public class HomeController {
         userManager.addContract(contract);
         userManager.addUser(client);
 
-        CreditSolution creditSolution = new CreditSolution(credit_amount);
+        CreditSolution creditSolution = new CreditSolution(long_credit_amount);
 
         return "application_completed";
     }
