@@ -4,19 +4,23 @@ import com.axmtk_task.axmtk_task.models.Client;
 import com.axmtk_task.axmtk_task.models.Contract;
 import com.axmtk_task.axmtk_task.managers.DBManager;
 import com.axmtk_task.axmtk_task.services.CreditSolution;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 
-@RestController("/")
+//@RestController
+//@RequestMapping("/")
+@Controller
 public class HomeController {
-
     /*
     Home page
+    templates
     */
     @GetMapping("/application")
-    public String login(){
-
+    public String application(Model model){
+//        model.addAttribute("message", "Welcome to our website!");
         return "application";
     }
 
