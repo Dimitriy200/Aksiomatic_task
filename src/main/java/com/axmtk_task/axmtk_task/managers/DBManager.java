@@ -1,4 +1,4 @@
-package com.axmtk_task.axmtk_task.services;
+package com.axmtk_task.axmtk_task.managers;
 
 import com.axmtk_task.axmtk_task.models.Client;
 import com.axmtk_task.axmtk_task.models.Contract;
@@ -10,7 +10,7 @@ import org.hibernate.query.Query;
 
 import java.util.List;
 
-public class DB_Manager {
+public class DBManager {
     SessionFactory sessionFactory;
 
     public void init(){

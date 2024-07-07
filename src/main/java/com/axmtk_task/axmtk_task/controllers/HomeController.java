@@ -2,8 +2,11 @@ package com.axmtk_task.axmtk_task.controllers;
 
 import com.axmtk_task.axmtk_task.models.Client;
 import com.axmtk_task.axmtk_task.models.Contract;
-import com.axmtk_task.axmtk_task.services.DB_Manager;
+import com.axmtk_task.axmtk_task.managers.DBManager;
+import com.axmtk_task.axmtk_task.services.CreditSolution;
 import org.springframework.web.bind.annotation.*;
+
+import java.math.BigDecimal;
 
 @RestController("/")
 public class HomeController {
@@ -39,7 +42,7 @@ public class HomeController {
                                 @RequestParam("address") String address,
                                 @RequestParam("phone_number") String phone_number,
                                 @RequestParam("employment_information") String employment_information,
-                                @RequestParam("credit_amount") String credit_amount){
+                                @RequestParam("credit_amount") short credit_amount){
 
         Byte test_byte = 111;
         Contract contract = new Contract(test_byte,
@@ -53,10 +56,12 @@ public class HomeController {
                                 employment_information,
                                 contract);
 
-        DB_Manager userManager = new DB_Manager();
+        DBManager userManager = new DBManager();
         userManager.init();
         userManager.addContract(contract);
         userManager.addUser(client);
+
+        CreditSolution creditSolution = new CreditSolution(credit_amount);
 
         return "application_completed";
     }
