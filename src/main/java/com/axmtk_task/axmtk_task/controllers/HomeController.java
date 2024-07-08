@@ -3,12 +3,12 @@ package com.axmtk_task.axmtk_task.controllers;
 import com.axmtk_task.axmtk_task.models.Client;
 import com.axmtk_task.axmtk_task.models.Contract;
 import com.axmtk_task.axmtk_task.managers.DBManager;
+import com.axmtk_task.axmtk_task.models.SolutionStatus;
+import com.axmtk_task.axmtk_task.services.CreditSolutionService;
 import com.axmtk_task.axmtk_task.services.CreditSolution;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.math.BigDecimal;
 
 //@RestController
 //@RequestMapping("/")
@@ -51,8 +51,12 @@ public class HomeController {
         long long_credit_amount = Long.parseLong(credit_amount);
 //        Byte contract_data = Byte.parseByte();
 
+        CreditSolutionService creditSolutionService = new CreditSolutionService(new CreditSolution(long_credit_amount));
+        SolutionStatus resultSolution = creditSolutionService.getSolutionStatus();
+
         Contract contract = new Contract(contract_data,
-                long_credit_amount);
+                                        long_credit_amount,
+                                        resultSolution);
 
         Client client = new Client(client_name,
                                 passport_data,
@@ -60,16 +64,13 @@ public class HomeController {
                                 address,
                                 phone_number,
                                 employment_information,
-                                contract
-        );
+                                contract);
 
         DBManager userManager = new DBManager();
         userManager.init();
         userManager.addContract(contract);
         userManager.addUser(client);
 
-        CreditSolution creditSolution = new CreditSolution(long_credit_amount);
-
-        return "application_completed";
+        return resultSolution.toString();
     }
 }

@@ -15,7 +15,7 @@ public class Contract {
     public long contract_id;
 
     @Column(name = "status")
-    private final boolean contract_status;
+    private final SolutionStatus contract_status;
 
     @Column(name = "contract_data")
     private final byte contract_data;
@@ -23,8 +23,10 @@ public class Contract {
     @Column(name = "credit_amount")
     private final long credit_amount;
 
-    public Contract(byte contract_data, long credit_amount) {
-        this.contract_status = false;
+    public Contract(byte contract_data,
+                    long credit_amount,
+                    SolutionStatus contract_status) {
+        this.contract_status = contract_status;
         this.contract_data = contract_data;
         this.credit_amount = credit_amount;
     }
@@ -33,7 +35,7 @@ public class Contract {
         return contract_id;
     }
 
-    public boolean isContract_status() {
+    public SolutionStatus isContract_status() {
         return contract_status;
     }
 

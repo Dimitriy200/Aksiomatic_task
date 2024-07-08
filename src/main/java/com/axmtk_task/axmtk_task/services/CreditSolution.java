@@ -3,7 +3,7 @@ package com.axmtk_task.axmtk_task.services;
 
 import java.math.BigDecimal;
 
-public class CreditSolution {
+public class CreditSolution implements  Solution{
     private final boolean solution_status;
     private final double probability;
     private final long solution_date;
@@ -19,8 +19,9 @@ public class CreditSolution {
         double res_date = this.max_solution_date * this.probability;
         this.solution_date = (long) res_date;
 
-        double res_amount = credit_amount * probability;
-        this.credit_amount = (long) res_amount;
+        this.credit_amount = credit_amount;
+//        double res_amount = credit_amount * probability;
+//        this.credit_amount = (long) res_amount;
     }
 
     public boolean getSolution_status() {
