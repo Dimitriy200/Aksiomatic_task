@@ -9,8 +9,8 @@ public class Client {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "client_id")
-    private Long client_id;
+//    @Column(name = "client_id")
+    private long client_id;
 
     @Column(name = "client_name")
     private final String client_name;

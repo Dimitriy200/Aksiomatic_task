@@ -1,6 +1,6 @@
 function getAppl(){
 
-    var theUrl = "http://localhost:8080/application?client_name&passport_data&family_status&address&phone_number&employment_information&credit_amount"
+    var theUrl = "http://localhost:8080/application?client_name=TestUser&passport_data=12345&family_status=ststusF&address=someAddress&phone_number=888888888&employment_information=someEmplInfo&credit_amount=9999";
 
     var xmlHttp = new XMLHttpRequest();
         xmlHttp.onreadystatechange = function() {

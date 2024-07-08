@@ -8,9 +8,11 @@ import java.util.Objects;
 public class Contract {
 
     @Id
+//    @SequenceGenerator(name = "customer_seq", initialValue = 1)
+//    @GeneratedValue(strategy = GenerationType.AUTO, generator = "customer_seq")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "contract_id")
-    public Long contract_id;
+//    @Column(name = "contract_id")
+    public long contract_id;
 
     @Column(name = "status")
     private final boolean contract_status;
