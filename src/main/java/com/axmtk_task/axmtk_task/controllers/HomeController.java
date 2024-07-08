@@ -10,16 +10,22 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 //@RestController
 //@RequestMapping("/")
 @Controller
 public class HomeController {
+
+    static Logger LOGGER = Logger.getLogger(HomeController.class.getName());;
     /*
     Home page
     templates
     */
     @GetMapping("/application")
     public String application(Model model){
+        System.out.println("ПОСЕЩЕНИЕ ГЛАВНОЙ СТРАНИЦЫ");
         return "application";
     }
 
@@ -38,7 +44,7 @@ public class HomeController {
     /*
     http://localhost:8080/application?client_name=TestUser&passport_data=12345&family_status=ststusF&address=someAddress&phone_number=888888888&employment_information=someEmplInfo&credit_amount=9999
     */
-    @PutMapping("/application")
+    @PutMapping("/credit")
     public String change_client(@RequestParam("client_name") String client_name,
                                 @RequestParam("passport_data") String passport_data,
                                 @RequestParam("family_status") String family_status,
@@ -46,6 +52,17 @@ public class HomeController {
                                 @RequestParam("phone_number") String phone_number,
                                 @RequestParam("employment_information") String employment_information,
                                 @RequestParam("credit_amount") String credit_amount){
+
+        System.out.println("ЗАПОЛНЕНИЕ ФОРМЫ, ПАРАМЕТЫ:"
+                                            + " " + client_name
+                                            + " " + passport_data
+                                            + " " + family_status
+                                            + " " + address
+                                            + " " + phone_number
+                                            + " " + phone_number
+                                            + " " + employment_information
+                                            + " " + credit_amount
+        );
 
         byte contract_data = 111;
         long long_credit_amount = Long.parseLong(credit_amount);
@@ -73,6 +90,7 @@ public class HomeController {
 //
 //        return resultSolution.toString();
 
+        System.out.println("ВОЗВРАЩАЮ НОВУЮ HTML");
         return "approved";
     }
 }

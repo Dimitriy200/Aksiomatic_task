@@ -36,27 +36,42 @@ function getAppl(){
 //    var client_url = "client_name=";
 //    var text_client_name = client_url.concat(client_name.textContent); // client_name.innerText
 
-//    var test_str = "&passport_data=12345&family_status=ststusF&address=someAddress&phone_number=888888888&employment_information=someEmplInfo&credit_amount=9999";
-    var test_Url = "http://localhost:8080/application?";
+//    var test_str = "http://localhost:8080/credit?client_name=test&passport_data=12345&family_status=ststusF&address=someAddress&phone_number=888888888&employment_information=someEmplInfo&credit_amount=9999";
+    var main_Url = "http://localhost:8080/credit?";
 
 //    var test1_str = text_client_name.concat(test_str);
-    var res_Url = test_Url.concat(text_client_name, text_passport_data, text_family_status, text_address, text_phone_number, text_employment_information, text_credit_amount);
+    var res_Url = main_Url.concat(text_client_name, text_passport_data, text_family_status, text_address, text_phone_number, text_employment_information, text_credit_amount);
 
 
-    var xmlHttp = new XMLHttpRequest();
-        xmlHttp.onreadystatechange = function() {
-            if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
-                callback(xmlHttp.responseText);
-        }
-        xmlHttp.open("PUT", res_Url);
-//        xhr.responseType = "document";
-        xmlHttp.send();
-
-//        xhr.onload = function() {
+//    var xmlHttp = new XMLHttpRequest();
+//        xmlHttp.onreadystatechange = function() {
+//            if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
+//                callback(xmlHttp.responseText);
+//        }
+//        xmlHttp.open("PUT", res_Url);
+//        xmlHttp.responseType = "document";
+//        xmlHttp.send();
+//
+//        xmlHttp.onload = function() {
 //          let responseObj = xhr.response;
 //          alert(responseObj.message);
 //        };
 
-
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open( "PUT", res_Url, false ); // false for synchronous request
+    xmlHttp.send( null );
+    res_xmlHttp = xmlHttp.responseText;
+    document.write(res_xmlHttp)
     return xmlHttp.responseText;
+
+//    return xmlHttp.responseText;
+
+//    window.location.href = "res_Url";
 }
+
+//function httpGet(res_Url){
+//        var xmlHttp = new XMLHttpRequest();
+//        xmlHttp.open( "GET", res_Url, false ); // false for synchronous request
+//        xmlHttp.send( null );
+//        return xmlHttp.responseText;
+//    }
