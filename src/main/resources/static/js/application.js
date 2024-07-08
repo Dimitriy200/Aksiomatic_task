@@ -1,4 +1,4 @@
-function getAppl(){]
+function getAppl(){
 
     var theUrl = "http://localhost:8080/application?client_name&passport_data&family_status&address&phone_number&employment_information&credit_amount"
 

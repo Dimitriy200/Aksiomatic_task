@@ -47,7 +47,7 @@ public class HomeController {
                                 @RequestParam("employment_information") String employment_information,
                                 @RequestParam("credit_amount") String credit_amount){
 
-        Byte contract_data = 111;
+        byte contract_data = 111;
         long long_credit_amount = Long.parseLong(credit_amount);
 //        Byte contract_data = Byte.parseByte();
 
