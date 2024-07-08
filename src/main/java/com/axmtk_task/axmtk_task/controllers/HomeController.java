@@ -53,7 +53,7 @@ public class HomeController {
 
         CreditSolutionService creditSolutionService = new CreditSolutionService(new CreditSolution(long_credit_amount));
         SolutionStatus resultSolution = creditSolutionService.getSolutionStatus();
-
+//
         Contract contract = new Contract(contract_data,
                                         long_credit_amount,
                                         resultSolution);
@@ -65,12 +65,14 @@ public class HomeController {
                                 phone_number,
                                 employment_information,
                                 contract);
+//
+//        DBManager userManager = new DBManager();
+//        userManager.init();
+//        userManager.addContract(contract);
+//        userManager.addUser(client);
+//
+//        return resultSolution.toString();
 
-        DBManager userManager = new DBManager();
-        userManager.init();
-        userManager.addContract(contract);
-        userManager.addUser(client);
-
-        return resultSolution.toString();
+        return "approved";
     }
 }
