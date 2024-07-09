@@ -3,11 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" th:href="@{/css/application.css}">
+    <script type="text/javascript" th:src="@{/js/application.js}"></script>
     <title>Denied</title>
 </head>
 <body>
     <form>
         <h3><label>В кредитовании ОДОБРЕНО</label></h3>
+    </form>
+
+<!--    <iframe id="frmFile" onload="LoadFile();" style="display: none;"></iframe>-->
+    <form>
+        <a download="contract.docx" href="http://localhost:8080/test_get_file">Download contract</a>
+    </form>
+
+    <form action="http://localhost:8080/testLoadFile">
+        <input type="file" id="myFile" name="filename" value="${}" accept=".docx">
+        <input type="submit">
     </form>
 </body>
 </html>

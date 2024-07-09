@@ -31,7 +31,6 @@ function getAppl(){
 //    const the_Url = "http://localhost:8080/application?";
 //    var res_Url = the_Url.concat(text_client_name, text_passport_data, text_family_status, text_address, text_phone_number, text_employment_information, text_credit_amount)
 
-
 //    var client_name = document.getElementById('client_name').value;
 //    var client_url = "client_name=";
 //    var text_client_name = client_url.concat(client_name.textContent); // client_name.innerText
@@ -60,11 +59,15 @@ function getAppl(){
 //          alert(responseObj.message);
 //        };
 
-//    var xmlHttp = new XMLHttpRequest();
-//    xmlHttp.open( "PUT", res_Url, false ); // false for synchronous request
-//    xmlHttp.send( null );
-////    document.write(xmlHttp.responseText)
-//    return xmlHttp.responseText;
+    var http = require('http');
+    var url = require('url');
+    var fs = require('fs');
+
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open( "PUT", res_Url, false ); // false for synchronous request
+    xmlHttp.send( null );
+//    document.write(xmlHttp.responseText)
+    return xmlHttp.responseText;
 
 //    return xmlHttp.responseText;
 
@@ -79,3 +82,19 @@ function getAppl(){
 //    }
 
 //document.getElementById('gotores').onclick = window.location.href = 'https://ya.ru';
+
+
+//    var test_str = "http://localhost:8080/approved";
+
+function LoadFile() {
+    var oFrame = document.getElementById("frmFile");
+    var strRawContents = oFrame.contentWindow.document.body.childNodes[0].innerHTML;
+    while (strRawContents.indexOf("\r") >= 0)
+        strRawContents = strRawContents.replace("\r", "");
+    var arrLines = strRawContents.split("\n");
+    alert("File " + oFrame.src + " has " + arrLines.length + " lines");
+    for (var i = 0; i < arrLines.length; i++) {
+        var curLine = arrLines[i];
+        alert("Line #" + (i + 1) + " is: '" + curLine + "'");
+    }
+}

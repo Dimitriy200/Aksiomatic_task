@@ -12,7 +12,7 @@ public class Contract {
 //    @GeneratedValue(strategy = GenerationType.AUTO, generator = "customer_seq")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 //    @Column(name = "contract_id")
-    public long contract_id;
+    private long contract_id;
 
     @Column(name = "status")
     private final SolutionStatus contract_status;
