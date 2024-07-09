@@ -9,6 +9,7 @@ import com.axmtk_task.axmtk_task.services.CreditSolution;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -44,8 +45,9 @@ public class HomeController {
     /*
     http://localhost:8080/application?client_name=TestUser&passport_data=12345&family_status=ststusF&address=someAddress&phone_number=888888888&employment_information=someEmplInfo&credit_amount=9999
     */
-    @PutMapping("/credit")
-    public String change_client(@RequestParam("client_name") String client_name,
+    @GetMapping("/credit")
+    @ResponseBody
+    public RedirectView change_client(@RequestParam("client_name") String client_name,
                                 @RequestParam("passport_data") String passport_data,
                                 @RequestParam("family_status") String family_status,
                                 @RequestParam("address") String address,
@@ -90,7 +92,19 @@ public class HomeController {
 //
 //        return resultSolution.toString();
 
-        System.out.println("ВОЗВРАЩАЮ НОВУЮ HTML");
+        System.out.println("ВОЗВРАЩАЮ ССЫЛКУ НА НОВУЮ HTML");
+        return new RedirectView("denied");
+    }
+
+    @GetMapping("/approved")
+    public String approved(Model model){
+        System.out.println("ПОСЕЩЕНИЕ СТРАНИЦЫ approved");
         return "approved";
+    }
+
+    @GetMapping("/denied")
+    public String denied(Model model){
+        System.out.println("ПОСЕЩЕНИЕ СТРАНИЦЫ denied");
+        return "denied";
     }
 }

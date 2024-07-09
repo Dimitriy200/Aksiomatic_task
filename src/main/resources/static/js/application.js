@@ -42,6 +42,9 @@ function getAppl(){
 //    var test1_str = text_client_name.concat(test_str);
     var res_Url = main_Url.concat(text_client_name, text_passport_data, text_family_status, text_address, text_phone_number, text_employment_information, text_credit_amount);
 
+    window.location.href = res_Url;
+//    return false;
+//    return res_Url
 
 //    var xmlHttp = new XMLHttpRequest();
 //        xmlHttp.onreadystatechange = function() {
@@ -57,12 +60,11 @@ function getAppl(){
 //          alert(responseObj.message);
 //        };
 
-    var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open( "PUT", res_Url, false ); // false for synchronous request
-    xmlHttp.send( null );
-    res_xmlHttp = xmlHttp.responseText;
-    document.write(res_xmlHttp)
-    return xmlHttp.responseText;
+//    var xmlHttp = new XMLHttpRequest();
+//    xmlHttp.open( "PUT", res_Url, false ); // false for synchronous request
+//    xmlHttp.send( null );
+////    document.write(xmlHttp.responseText)
+//    return xmlHttp.responseText;
 
 //    return xmlHttp.responseText;
 
@@ -75,3 +77,5 @@ function getAppl(){
 //        xmlHttp.send( null );
 //        return xmlHttp.responseText;
 //    }
+
+//document.getElementById('gotores').onclick = window.location.href = 'https://ya.ru';
