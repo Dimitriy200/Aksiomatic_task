@@ -11,26 +11,58 @@ import org.hibernate.query.Query;
 import java.util.List;
 
 public class DBManager {
-    SessionFactory sessionFactory;
+    private SessionFactory sessionFactory;
+//    private static DBManager instance;
+
+//    public static DBManager init(){
+//        if(instance == null){
+//            instance = new DBManager();
+//
+//            sessionFactory = new Configuration().
+//                    addAnnotatedClass(Client.class).
+//                    addAnnotatedClass(Contract.class).
+//                    buildSessionFactory();
+//        }
+//        return instance;
+//    }
 
     public void init(){
-        this.sessionFactory = new Configuration().
+        sessionFactory = new Configuration().
                 addAnnotatedClass(Client.class).
                 addAnnotatedClass(Contract.class).
                 buildSessionFactory();
     }
 
-    public List<Client> getAllUser() {
+    public List<Client> getAllClient() {
         try (Session session = sessionFactory.openSession()) {
-            Query<Client> query = session.createQuery("from User", Client.class);
+            Query<Client> query = session.createQuery("SELECT * FROM Client", Client.class);
             return query.list();
         }
     }
 
-    public void addUser(Client user ) {
+    public List<Contract> getAllContract() {
+        try (Session session = sessionFactory.openSession()) {
+            Query<Contract> query = session.createQuery("SELECT * FROM Contract", Contract.class);
+            return query.list();
+        }
+    }
+
+    public Contract getContract(Contract contract) {
+        try (Session session = sessionFactory.openSession()) {
+            Query<Contract> query = session.createQuery("SELECT * FROM Contract WERE "
+                            + " contract_id = " + contract.getContract_id().toString() +" AND "
+                            + " status" + contract.getContract_status() +" AND "
+                            + " credit_amount" + contract.getCredit_amount() +" AND "
+                    , Contract.class);
+
+            return query.uniqueResult();
+        }
+    }
+
+    public void addClient(Client client ) {
         try (Session session = sessionFactory.openSession()) {
             Transaction transaction = session.beginTransaction();
-            session.persist(user);
+            session.persist(client);
             transaction.commit();
         }
     }

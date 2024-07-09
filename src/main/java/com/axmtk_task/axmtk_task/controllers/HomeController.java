@@ -3,15 +3,13 @@ package com.axmtk_task.axmtk_task.controllers;
 import com.axmtk_task.axmtk_task.models.Client;
 import com.axmtk_task.axmtk_task.models.Contract;
 import com.axmtk_task.axmtk_task.managers.DBManager;
+import com.axmtk_task.axmtk_task.models.ContractStatus;
 import com.axmtk_task.axmtk_task.models.SolutionStatus;
 import com.axmtk_task.axmtk_task.services.CreditSolutionService;
 import com.axmtk_task.axmtk_task.services.CreditSolution;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.apache.poi.xwpf.usermodel.XWPFRun;
-import org.apache.poi.xwpf.usermodel.XWPFTable;
-import org.docx4j.openpackaging.packages.WordprocessingMLPackage;
-import org.docx4j.openpackaging.parts.WordprocessingML.MainDocumentPart;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -19,12 +17,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.nio.file.Files;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 //@RestController
@@ -36,6 +30,9 @@ public class HomeController {
 
     private List<Client> clientList = new LinkedList<Client>();
     private List<Contract> contractList = new LinkedList<Contract>();
+//    private List<byte[]> contractDataList = new LinkedList<byte[]>();
+    private DBManager dbManager;
+
     /*
     Home page
     templates
@@ -69,7 +66,7 @@ public class HomeController {
                                       @RequestParam("address") String address,
                                       @RequestParam("phone_number") String phone_number,
                                       @RequestParam("employment_information") String employment_information,
-                                      @RequestParam("credit_amount") String credit_amount){
+                                      @RequestParam("credit_amount") String credit_amount) throws Exception{
 
         System.out.println("ЗАПОЛНЕНИЕ ФОРМЫ, ПАРАМЕТЫ:"
                                             + " " + client_name
@@ -77,21 +74,44 @@ public class HomeController {
                                             + " " + family_status
                                             + " " + address
                                             + " " + phone_number
-                                            + " " + phone_number
                                             + " " + employment_information
                                             + " " + credit_amount
         );
 
-        byte contract_data = 111;
+//        byte contract_data = 111;
+
+        XWPFDocument document = new XWPFDocument();
+        XWPFParagraph paragraph = document.createParagraph();
+        XWPFRun run = paragraph.createRun();
+
+        run.setText("client_name: " + client_name);
+        run.addBreak();
+        run.setText("passport_data: " + passport_data);
+        run.addBreak();
+        run.setText("family_status: " + family_status);
+        run.addBreak();
+        run.setText("address: " + address);
+        run.addBreak();
+        run.setText("phone_number: " + phone_number);
+        run.addBreak();
+        run.setText("employment_information: " + employment_information);
+        run.addBreak();
+        run.setText("credit_amount: " + credit_amount);
+        run.addBreak();
+
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+
+        document.write(out);
+        out.close();
+        document.close();
+        byte[] contract_data = out.toByteArray();
+
         long long_credit_amount = Long.parseLong(credit_amount);
 //        Byte contract_data = Byte.parseByte();
 
-        CreditSolutionService creditSolutionService = new CreditSolutionService(new CreditSolution(long_credit_amount));
-        SolutionStatus resultSolution = creditSolutionService.getSolutionStatus();
-
         Contract new_contract = new Contract(contract_data,
                                         long_credit_amount,
-                                        resultSolution);
+                                        ContractStatus.notSubscribe.toString());
 
         Client new_client = new Client(client_name,
                                 passport_data,
@@ -102,34 +122,62 @@ public class HomeController {
                                 new_contract);
 
         /*
-            Logic solution
-            if true add new client/contract to lists and return approved
-            else not add and return denied
+        Logic solution
+        if true add new client/contract to lists/bd and return approved
+        else not add and return denied
         */
 
-        this.clientList.add(new_client);
-        this.contractList.add(new_contract);
-//
-//        DBManager userManager = new DBManager();
-//        userManager.init();
-//        userManager.addContract(contract);
-//        userManager.addUser(client);
-//
-//        return resultSolution.toString();
-        System.out.println("ПАРАМЕТРЫ NEW_CLIENT:"
-                + " " + new_client.getClient_id()
-                + " " + new_client.getClient_name()
-                + " " + new_client.getPassport_data());
+        CreditSolutionService creditSolutionService = new CreditSolutionService(new CreditSolution(long_credit_amount));
+        SolutionStatus resultSolution = creditSolutionService.getSolutionStatus();
 
-        System.out.println("ПАРАМЕТРЫ NEW_CONTRACT:"
-                + new_contract.getContract_id());
+        this.dbManager = new DBManager();
+        this.dbManager.init();
 
-        System.out.println("ВОЗВРАЩАЮ ССЫЛКУ НА НОВУЮ HTML");
-        return new RedirectView("approved");
+        if (resultSolution == SolutionStatus.approved){
+            this.clientList.add(new_client);
+            this.contractList.add(new_contract);
+
+            System.out.println("ПАРАМЕТРЫ NEW_CLIENT:"
+                    + " " + new_client.getClient_id()
+                    + " " + new_client.getClient_name()
+                    + " " + new_client.getPassport_data());
+
+            System.out.println("ПАРАМЕТРЫ NEW_CONTRACT:"
+                    + " " + new_contract.getContract_id()
+                    + " " + new_contract.getContract_status()
+                    + " " + new_contract.getCredit_amount());
+
+            this.dbManager.addContract(new_contract);
+            this.dbManager.addClient(new_client);
+
+            System.out.println("ВОЗВРАЩАЮ ССЫЛКУ НА НОВУЮ HTML");
+            return new RedirectView("approved");
+
+        }else{
+            System.out.println("ПАРАМЕТРЫ NEW_CLIENT:"
+                    + " " + new_client.getClient_id()
+                    + " " + new_client.getClient_name()
+                    + " " + new_client.getPassport_data());
+
+            System.out.println("ПАРАМЕТРЫ NEW_CONTRACT:"
+                    + " " + new_contract.getContract_id()
+                    + " " + new_contract.getContract_status()
+                    + " " + new_contract.getCredit_amount());
+            System.out.println("ВОЗВРАЩАЮ ССЫЛКУ НА НОВУЮ HTML denied");
+
+            return new RedirectView("denied");
+        }
+
+//        return new RedirectView("approved");
     }
 
-//    http://localhost:8080/test_get_file
-    @GetMapping("/test_get_file")
+
+
+
+    /*
+    http://localhost:8080/test_get_file
+    */
+    @GetMapping("/get_contract_doc")
     public @ResponseBody byte[] test_get_file(Model model) throws Exception {
 
 //        WordprocessingMLPackage wordMLPackage = WordprocessingMLPackage.createPackage();
@@ -155,30 +203,53 @@ public class HomeController {
 //        doc.write(out);
 //        out.close();
 
-        XWPFDocument document = new XWPFDocument();
-        XWPFParagraph paragraph = document.createParagraph();
-        XWPFRun run = paragraph.createRun();
-        run.setText("Test Text");
-        run.addBreak();
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
+//        XWPFDocument document = new XWPFDocument();
+//        XWPFParagraph paragraph = document.createParagraph();
+//        XWPFRun run = paragraph.createRun();
+//        run.setText("Test Text");
+//        run.addBreak();
+//        ByteArrayOutputStream out = new ByteArrayOutputStream();
+//
+//        document.write(out);
+//        out.close();
+//        document.close();
+//        byte[] fileContent = out.toByteArray();
 
-        document.write(out);
-        out.close();
-        document.close();
-        byte[] fileContent = out.toByteArray();
-
-        System.out.println("ТЕСТОВАЯ ОТПРАВКА ФАЙЛА КЛИЕНТУ");
+        byte[] fileContent = this.contractList.getLast().getContract_data();
+        System.out.println("ОТПРАВКА ФАЙЛА КЛИЕНТУ");
         return fileContent;
     }
 
+
+
+
 //    @RequestMapping(value = "/testLoadFile", method = RequestMethod.GET)
-    @GetMapping("/testLoadFile")
+    @GetMapping("/loadDoc")
     @ResponseBody
-    public RedirectView testLoadFile(@PathVariable("file_name") MultipartFile fileName){
+    public RedirectView testLoadFile(@PathVariable("file_name") MultipartFile fileName) throws Exception{
 
-        System.out.println("ТЕСТОВАЯ ЗАГРУЗКА ФАЙЛА ОТ КЛИЕНТА");
-        return new RedirectView("application");
+        System.out.println("ЗАГРУЗКА ФАЙЛА ОТ КЛИЕНТА");
 
+        /*
+        Получить нужный объект контакта
+        записать новые данные
+        изменить статус
+        вставить вместо старого
+        */
+        this.dbManager.init();
+
+        byte [] newContractData = fileName.getBytes();
+
+        Contract contract = this.dbManager.getContract(this.contractList.getLast());
+        contract.setContract_status(ContractStatus.subscribe);
+        contract.setContract_data(newContractData);
+
+        dbManager.addContract(contract);
+
+        this.contractList.clear();
+        this.clientList.clear();
+
+        return new RedirectView("subscribe");
     }
 
     @GetMapping("/approved")

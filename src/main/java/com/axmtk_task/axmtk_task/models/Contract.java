@@ -14,41 +14,51 @@ public class Contract {
 //    @Column(name = "contract_id")
     private long contract_id;
 
-    @Column(name = "status")
-    private final SolutionStatus contract_status;
+    @Column(name = "contract_status")
+    private String contract_status;
 
     @Column(name = "contract_data")
-    private final byte contract_data;
+    private byte [] contract_data;
 
     @Column(name = "credit_amount")
-    private final long credit_amount;
+    private final Long credit_amount;
 
-    public Contract(byte contract_data,
+    public Contract(byte [] contract_data,
                     long credit_amount,
-                    SolutionStatus contract_status) {
+                    String contract_status) {
         this.contract_status = contract_status;
         this.contract_data = contract_data;
         this.credit_amount = credit_amount;
     }
 
-    public long getContract_id() {
-        return contract_id;
+    public Long getContract_id() {
+        Long res = contract_id;
+        return res;
     }
 
-    public SolutionStatus isContract_status() {
+    public String getContract_status() {
         return contract_status;
     }
 
-    public byte getContract_data() {
+    public byte [] getContract_data() {
         return contract_data;
     }
 
-    public long getCredit_amount() {
-        return credit_amount;
+    public Long getCredit_amount() {
+        Long res = credit_amount;
+        return res;
     }
 
     public void setContract_id(long contract_id) {
         this.contract_id = contract_id;
+    }
+
+    public void setContract_status(ContractStatus contract_status) {
+        this.contract_status = contract_status.toString();
+    }
+
+    public void setContract_data(byte[] contract_data) {
+        this.contract_data = contract_data;
     }
 
     @Override
