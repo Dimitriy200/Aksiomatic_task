@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import java.util.Objects;
 
 @Entity(name = "Contract")
+@Table
 public class Contract {
 
     @Id
@@ -21,7 +22,7 @@ public class Contract {
     private byte [] contract_data;
 
     @Column(name = "credit_amount")
-    private final Long credit_amount;
+    private Long credit_amount;
 
     public Contract(byte [] contract_data,
                     long credit_amount,
@@ -30,6 +31,8 @@ public class Contract {
         this.contract_data = contract_data;
         this.credit_amount = credit_amount;
     }
+
+    public Contract(){}
 
     public Long getContract_id() {
         Long res = contract_id;
@@ -53,8 +56,8 @@ public class Contract {
         this.contract_id = contract_id;
     }
 
-    public void setContract_status(ContractStatus contract_status) {
-        this.contract_status = contract_status.toString();
+    public void setContract_status(String contract_status) {
+        this.contract_status = contract_status;
     }
 
     public void setContract_data(byte[] contract_data) {

@@ -224,9 +224,9 @@ public class HomeController {
 
 
 //    @RequestMapping(value = "/testLoadFile", method = RequestMethod.GET)
-    @GetMapping("/loadDoc")
+    @PostMapping("/loadDoc")
     @ResponseBody
-    public RedirectView testLoadFile(@PathVariable("file_name") MultipartFile fileName) throws Exception{
+    public RedirectView loadDoc(@RequestPart(name = "myfile", required = false) MultipartFile fileName) throws Exception{
 
         System.out.println("ЗАГРУЗКА ФАЙЛА ОТ КЛИЕНТА");
 
@@ -240,11 +240,13 @@ public class HomeController {
 
         byte [] newContractData = fileName.getBytes();
 
+//        Contract contract = this.dbManager.getAllContract().getLast();
         Contract contract = this.dbManager.getContract(this.contractList.getLast());
-        contract.setContract_status(ContractStatus.subscribe);
+        contract.setContract_status(ContractStatus.subscribe.toString());
         contract.setContract_data(newContractData);
 
-        dbManager.addContract(contract);
+//        this.dbManager.deleteContract(this.contractList.getLast());
+        this.dbManager.updateContract(contract);
 
         this.contractList.clear();
         this.clientList.clear();

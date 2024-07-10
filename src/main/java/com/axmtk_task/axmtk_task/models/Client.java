@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import java.util.Objects;
 
 @Entity(name = "Client")
+@Table
 public class Client {
 
     @Id
@@ -13,22 +14,22 @@ public class Client {
     private long client_id;
 
     @Column(name = "client_name")
-    private final String client_name;
+    private String client_name;
 
     @Column(name = "passport_data")
-    private final String passport_data;
+    private String passport_data;
 
     @Column(name = "family_status")
-    private final String family_status;
+    private String family_status;
 
     @Column(name = "address")
-    private final String address;
+    private String address;
 
     @Column(name = "phone_number")
-    private final String phone_number;
+    private String phone_number;
 
     @Column(name = "employment_information")
-    private final String employment_information;
+    private String employment_information;
 
     @ManyToOne
     @JoinColumn(name = "id",
@@ -52,6 +53,8 @@ public class Client {
         this.employment_information = employment_information;
         this.contract = contract;
     }
+
+    public Client(){}
 
     public long getClient_id() {
         return client_id;

@@ -16,9 +16,13 @@
         <a download="contract.docx" href="http://localhost:8080/get_contract_doc">Download contract</a>
     </form>
 
-    <form action="http://localhost:8080/loadDoc">
-        <input type="file" id="myFile" name="filename" value="${}" accept=".docx">
-        <input type="submit">
+<!--    <form action="http://localhost:8080/loadDoc" enctype="multipart/form-data">-->
+<!--        <input type="file" id="myFile" name="filename" accept=".docx">-->
+<!--        <input type="submit" value="submit">-->
+<!--    </form>-->
+    <form id="uploadbanner" enctype="multipart/form-data" method="post" action="http://localhost:8080/loadDoc">
+        <input id="fileupload" name="myfile" type="file" />
+        <input type="submit" value="submit" id="submit" />
     </form>
 </body>
 </html>
