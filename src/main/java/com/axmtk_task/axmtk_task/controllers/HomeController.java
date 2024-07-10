@@ -7,6 +7,7 @@ import com.axmtk_task.axmtk_task.models.ContractStatus;
 import com.axmtk_task.axmtk_task.models.SolutionStatus;
 import com.axmtk_task.axmtk_task.services.CreditSolutionService;
 import com.axmtk_task.axmtk_task.services.CreditSolution;
+import com.google.gson.Gson;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.apache.poi.xwpf.usermodel.XWPFRun;
@@ -17,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -252,6 +254,20 @@ public class HomeController {
         this.clientList.clear();
 
         return new RedirectView("subscribe");
+    }
+
+    @GetMapping("/allUsers")
+    public @ResponseBody List<Client> getAllUsers(){
+
+        this.dbManager = new DBManager();
+        this.dbManager.init();
+        List<Client> allClients = this.dbManager.getAllClient();
+
+        Gson gson = new Gson();
+        String jsonArray = gson.toJson(allClients);
+
+        System.out.println("ПОЛУЧЕНИЕ СПИСКА ВСЕХ ПОЛЬЗОВАТЕЛЕЙ, ДЛИНА = " + allClients.size());
+        return allClients;
     }
 
     @GetMapping("/approved")

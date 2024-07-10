@@ -98,3 +98,49 @@ function LoadFile() {
         alert("Line #" + (i + 1) + " is: '" + curLine + "'");
     }
 }
+
+
+function getAllClients(){
+    urlGetAllClients = "http://localhost:8080/allUsers";
+
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open( "GET", urlGetAllClients, false ); // false for synchronous request
+    xmlHttp.send( null );
+
+    listUsers = JSON.parse(xmlHttp.responseText);
+//    for(user : listUsers){
+//        document.write(user.client_name)
+//    }
+
+    for(var i = 0; i < listUsers.length; i++){
+        for (var key in listUsers[i]) {
+        document.write(key + " = ")
+           for (var j= 0; j<listUsers[i][key].length; j++) {
+               document.write(listUsers[i][key][j] + "   ");
+           }
+        }
+           document.write("<br>");
+    }
+
+
+//    arrListUsers = Array.from(listUsers)
+//    document.getElementById("getAllClientsOut").value = listUsers;
+
+//    window.location.href = urlGetAllClients;
+
+}
+
+
+function getClientsOnNamePonePassport(){
+
+}
+
+
+function GetClientApproved(){
+
+}
+
+
+function GetClientSubscribe(){
+
+}

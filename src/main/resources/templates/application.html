@@ -62,6 +62,40 @@
     <button type="submit" onclick="getAppl();">Send application</button>
 <!--        <button onclick="location.href=http://localhost:8080/credit?client_name=test&passport_data=12345&family_status=ststusF&address=someAddress&phone_number=888888888&employment_information=someEmplInfo&credit_amount=9999;">Send application</button>-->
 
+    <form id="getAllClients" onclick="getAllClients()">
+        <input type="submit" value="Все пользователи" id="getAllClientsId" />
+        <p><textarea id="getAllClientsOut"></textarea></p>
+    </form>
+
+    <form id="getClientsOnNamePonePassport">
+        <input type="submit" onclick="getAllClients()" value="Поиск клиента по ФИО, номеру и паспорту" id="getClientsOnNamePonePassportId" />
+        <p><label>
+            <input type="text" id="ClientsOnName">
+        </label></p>
+        <p><label>
+            <input type="text" id="ClientsOnPone">
+        </label></p>
+        <p><label>
+            <input type="text" id="ClientsOnPassport">
+        </label></p>
+        <p><textarea id="getClientsOnNamePonePassportOut"></textarea></p>
+    </form>
+
+    <form id="GetClientApproved">
+        <input type="submit" onclick="getAllClients()" value="Клиенты со статусом одобрения" id="GetClientApprovedId" />
+        <p><label>
+            <input type="text" id="ClientApproved">
+        </label></p>
+        <p><textarea id="GetClientApprovedOut"></textarea></p>
+    </form>
+
+    <form id="GetClientSubscribe">
+        <input type="submit" value="Клиенты, подписавщие контракт" id="submit" />
+        <p><label>
+            <input type="text" id="ClientSubscribe">
+        </label></p>
+        <p><textarea id="GetClientSubscribeOut"></textarea></p>
+    </form>
 
 </body>
 </html>
