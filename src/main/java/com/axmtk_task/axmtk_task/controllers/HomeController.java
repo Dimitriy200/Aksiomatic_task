@@ -291,6 +291,18 @@ public class HomeController {
         return allClients;
     }
 
+    @GetMapping("/getClientApproved")
+    @ResponseBody
+    public List<Client> getClientApproved(){
+
+        this.dbManager = new DBManager();
+        this.dbManager.init();
+        List<Client> allClients = this.dbManager.getClientApproved();
+
+        System.out.println("ПОЛУЧЕНИЕ СПИСКА ПОЛЬЗОВАТЕЛЕЙ ПО СТАТУСУ ОДОБРЕНИЯ, ДЛИНА = " + allClients.size());
+        return allClients;
+    }
+
     @GetMapping("/approved")
     public String approved(Model model){
         System.out.println("ПОСЕЩЕНИЕ СТРАНИЦЫ approved");

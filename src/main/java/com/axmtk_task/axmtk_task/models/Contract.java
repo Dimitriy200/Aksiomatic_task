@@ -25,7 +25,7 @@ public class Contract {
     private byte [] contract_data;
 
     @Column(name = "credit_amount")
-    private Long credit_amount;
+    private long credit_amount;
 
     public Contract(byte [] contract_data,
                     long credit_amount,
@@ -67,14 +67,6 @@ public class Contract {
 
     public void setContract_data(byte[] contract_data) {
         this.contract_data = contract_data;
-    }
-
-    public String getContract_solution() {
-        return contract_solution;
-    }
-
-    public void setContract_solution(String contract_solution) {
-        this.contract_solution = contract_solution;
     }
 
     @Override

@@ -115,6 +115,21 @@ public class DBManager {
         }
     }
 
+    public List<Client> getClientApproved() {
+        try (Session session = sessionFactory.openSession()) {
+//            Query<Client> query = session.createQuery("FROM Client WHERE "
+//                                                        + "client_name = " + client_name + " AND "
+//                                                        + "passport_data = " + passport_data + " AND "
+//                                                        + "phone_number = " + phone_number
+//                                                        , Client.class);
+
+            Query<Client> query = session.createQuery("Client.client_id, client_name, passport_data, family_status, address, phone_number, employment_information, contract_id_FK FROM Client JOIN Contract ON Client.contract_id_FK = Contract.contract_id WHERE contract_solution = 'approved'\n");
+//            Contract getContract = session.find(Contract.class, contract.getContract_id());
+
+            return query.list();
+        }
+    }
+
     public void addClient(Client client ) {
         try (Session session = sessionFactory.openSession()) {
             Transaction transaction = session.beginTransaction();

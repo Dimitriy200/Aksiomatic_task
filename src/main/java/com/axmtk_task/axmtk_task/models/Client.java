@@ -32,9 +32,9 @@ public class Client {
     private String employment_information;
 
     @ManyToOne
-    @JoinColumn(name = "id",
+    @JoinColumn(name = "contract_id_FK",
             foreignKey = @ForeignKey(name = "contract_id_FK"))
-    private Contract contract;
+    private Contract contract_id_FK;
 
 
     public Client(String client_name,
@@ -43,7 +43,7 @@ public class Client {
                   String address,
                   String phone_number,
                   String employment_information,
-                  Contract contract) {
+                  Contract contract_id_FK) {
 
         this.client_name = client_name;
         this.passport_data = passport_data;
@@ -51,7 +51,7 @@ public class Client {
         this.address = address;
         this.phone_number = phone_number;
         this.employment_information = employment_information;
-        this.contract = contract;
+        this.contract_id_FK = contract_id_FK;
     }
 
     public Client(){}
@@ -85,15 +85,15 @@ public class Client {
     }
 
     public Contract getContract() {
-        return contract;
+        return contract_id_FK;
     }
 
     public void setClient_id(long client_id) {
         this.client_id = client_id;
     }
 
-    public void setContract(Contract contract) {
-        this.contract = contract;
+    public void setContract(Contract contract_id_FK) {
+        this.contract_id_FK = contract_id_FK;
     }
 
     @Override
@@ -101,11 +101,17 @@ public class Client {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Client client = (Client) o;
-        return client_id == client.client_id && Objects.equals(client_name, client.client_name) && Objects.equals(passport_data, client.passport_data) && Objects.equals(family_status, client.family_status) && Objects.equals(address, client.address) && Objects.equals(phone_number, client.phone_number) && Objects.equals(employment_information, client.employment_information) && Objects.equals(contract, client.contract);
+        return client_id == client.client_id && Objects.equals(client_name, client.client_name) &&
+                Objects.equals(passport_data, client.passport_data) &&
+                Objects.equals(family_status, client.family_status) &&
+                Objects.equals(address, client.address) &&
+                Objects.equals(phone_number, client.phone_number) &&
+                Objects.equals(employment_information, client.employment_information) &&
+                Objects.equals(contract_id_FK, client.contract_id_FK);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(client_id, client_name, passport_data, family_status, address, phone_number, employment_information, contract);
+        return Objects.hash(client_id, client_name, passport_data, family_status, address, phone_number, employment_information, contract_id_FK);
     }
 }
