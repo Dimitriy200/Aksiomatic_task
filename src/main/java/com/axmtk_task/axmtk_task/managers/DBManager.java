@@ -104,6 +104,7 @@ public class DBManager {
 //                                                        + "passport_data = " + passport_data + " AND "
 //                                                        + "phone_number = " + phone_number
 //                                                        , Client.class);
+
             Query<Client> query = session.createQuery("from Client where client_name = :client_name AND passport_data = :passport_data AND phone_number = :phone_number");
             query.setParameter("client_name", client_name);
             query.setParameter("passport_data", passport_data);

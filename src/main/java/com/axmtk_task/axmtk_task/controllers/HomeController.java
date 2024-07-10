@@ -111,18 +111,6 @@ public class HomeController {
         long long_credit_amount = Long.parseLong(credit_amount);
 //        Byte contract_data = Byte.parseByte();
 
-        Contract new_contract = new Contract(contract_data,
-                                        long_credit_amount,
-                                        ContractStatus.notSubscribe.toString());
-
-        Client new_client = new Client(client_name,
-                                passport_data,
-                                family_status,
-                                address,
-                                phone_number,
-                                employment_information,
-                                new_contract);
-
         /*
         Logic solution
         if true add new client/contract to lists/bd and return approved
@@ -131,6 +119,19 @@ public class HomeController {
 
         CreditSolutionService creditSolutionService = new CreditSolutionService(new CreditSolution(long_credit_amount));
         SolutionStatus resultSolution = creditSolutionService.getSolutionStatus();
+
+        Contract new_contract = new Contract(contract_data,
+                long_credit_amount,
+                ContractStatus.notSubscribe.toString(),
+                resultSolution.toString());
+
+        Client new_client = new Client(client_name,
+                passport_data,
+                family_status,
+                address,
+                phone_number,
+                employment_information,
+                new_contract);
 
         this.dbManager = new DBManager();
         this.dbManager.init();
@@ -166,6 +167,12 @@ public class HomeController {
                     + " " + new_contract.getContract_status()
                     + " " + new_contract.getCredit_amount());
             System.out.println("ВОЗВРАЩАЮ ССЫЛКУ НА НОВУЮ HTML denied");
+
+            this.clientList.add(new_client);
+            this.contractList.add(new_contract);
+
+            this.dbManager.addContract(new_contract);
+            this.dbManager.addClient(new_client);
 
             return new RedirectView("denied");
         }
@@ -238,6 +245,7 @@ public class HomeController {
         изменить статус
         вставить вместо старого
         */
+        this.dbManager = new DBManager();
         this.dbManager.init();
 
         byte [] newContractData = fileName.getBytes();
@@ -253,7 +261,7 @@ public class HomeController {
         this.contractList.clear();
         this.clientList.clear();
 
-        return new RedirectView("subscribe");
+        return new RedirectView("/subscribe");
     }
 
     @GetMapping("/allUsers")
@@ -293,5 +301,11 @@ public class HomeController {
     public String denied(Model model){
         System.out.println("ПОСЕЩЕНИЕ СТРАНИЦЫ denied");
         return "denied";
+    }
+
+    @GetMapping("/subscribe")
+    public String subscribe(Model model){
+        System.out.println("ПОСЕЩЕНИЕ СТРАНИЦЫ subscribe");
+        return "subscribe";
     }
 }
