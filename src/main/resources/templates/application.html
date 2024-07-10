@@ -85,15 +85,15 @@
     </form>
 
     <form id="GetClientApproved">
-        <input type="submit" onclick="getAllClients()" value="Клиенты со статусом одобрения" id="GetClientApprovedId" />
+        <input type="submit" onclick="GetClientApproved()" value="Клиенты со статусом одобрения" id="GetClientApprovedId" />
         <p><label>
             <input type="text" id="ClientApproved">
         </label></p>
         <p><textarea id="GetClientApprovedOut"></textarea></p>
     </form>
 
-    <form id="GetClientSubscribe">
-        <input type="submit" value="Клиенты, подписавщие контракт" id="submit" />
+    <form id="GetContractSubscribe">
+        <input type="submit" onclick="getContractSubscribe()" value="Подписанные контракты" id="submit" />
         <p><label>
             <input type="text" id="ClientSubscribe">
         </label></p>

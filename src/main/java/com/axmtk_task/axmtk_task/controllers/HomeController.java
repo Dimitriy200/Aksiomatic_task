@@ -303,6 +303,18 @@ public class HomeController {
         return allClients;
     }
 
+    @GetMapping("/getContractSubscribe")
+    @ResponseBody
+    public List<Contract> getContractSubscribe(){
+
+        this.dbManager = new DBManager();
+        this.dbManager.init();
+        List<Contract> contracts = this.dbManager.getContractSubscribe(ContractStatus.subscribe);
+
+        System.out.println("ПОЛУЧЕНИЕ СПИСКА ПОЛЬЗОВАТЕЛЕЙ ПО СТАТУСУ ОДОБРЕНИЯ, ДЛИНА = " + contracts.size());
+        return contracts;
+    }
+
     @GetMapping("/approved")
     public String approved(Model model){
         System.out.println("ПОСЕЩЕНИЕ СТРАНИЦЫ approved");

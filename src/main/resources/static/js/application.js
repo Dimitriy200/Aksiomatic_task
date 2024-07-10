@@ -169,10 +169,48 @@ function getClientsOnNamePonePassport(){
 
 
 function GetClientApproved(){
+    var res_Url = "http://localhost:8080/getClientApproved?";
+
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open( "GET", res_Url, false ); // false for synchronous request
+    xmlHttp.send( null );
+
+    listUsers = JSON.parse(xmlHttp.responseText);
+
+    for(var i = 0; i < listUsers.length; i++){
+        for (var key in listUsers[i]) {
+        document.write(key + " = ")
+           for (var j= 0; j<listUsers[i][key].length; j++) {
+               document.write(listUsers[i][key][j] + "   ");
+           }
+        }
+           document.write("<br>");
+    }
 
 }
 
 
-function GetClientSubscribe(){
+function getContractSubscribe(){
+    var res_Url = "http://localhost:8080/getContractSubscribe?";
+
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.open( "GET", res_Url, false ); // false for synchronous request
+        xmlHttp.send( null );
+
+        listUsers = JSON.parse(xmlHttp.responseText);
+
+        for(var i = 0; i < listUsers.length; i++){
+            for (var key in listUsers[i]) {
+            if (key != 'contract_data'){
+                document.write(key + " = ")
+
+                for (var j= 0; j < listUsers[i][key].length; j++) {
+                    document.write(listUsers[i][key][j]);
+                }
+                document.write(" | ")
+            }
+        }
+    document.write("<br>");
+    }
 
 }

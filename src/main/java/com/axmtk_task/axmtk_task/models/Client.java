@@ -2,6 +2,7 @@ package com.axmtk_task.axmtk_task.models;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 @Entity(name = "Client")
@@ -31,7 +32,7 @@ public class Client {
     @Column(name = "employment_information")
     private String employment_information;
 
-    @ManyToOne
+    @ManyToOne()
     @JoinColumn(name = "contract_id_FK",
             foreignKey = @ForeignKey(name = "contract_id_FK"))
     private Contract contract_id_FK;
@@ -51,6 +52,7 @@ public class Client {
         this.address = address;
         this.phone_number = phone_number;
         this.employment_information = employment_information;
+//        this.contract_id_FK = new ArrayList<>();
         this.contract_id_FK = contract_id_FK;
     }
 

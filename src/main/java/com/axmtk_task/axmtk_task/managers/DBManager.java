@@ -2,6 +2,7 @@ package com.axmtk_task.axmtk_task.managers;
 
 import com.axmtk_task.axmtk_task.models.Client;
 import com.axmtk_task.axmtk_task.models.Contract;
+import com.axmtk_task.axmtk_task.models.ContractStatus;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -9,6 +10,7 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.cfg.Environment;
 import org.hibernate.query.Query;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
@@ -123,8 +125,24 @@ public class DBManager {
 //                                                        + "phone_number = " + phone_number
 //                                                        , Client.class);
 
-            Query<Client> query = session.createQuery("Client.client_id, client_name, passport_data, family_status, address, phone_number, employment_information, contract_id_FK FROM Client JOIN Contract ON Client.contract_id_FK = Contract.contract_id WHERE contract_solution = 'approved'\n");
-//            Contract getContract = session.find(Contract.class, contract.getContract_id());
+            List<Object[]> query = session.createQuery("Client.client_id, client_name, passport_data, family_status, address, phone_number, employment_information, contract_id_FK FROM Client JOIN Contract ON Client.contract_id_FK = Contract.contract_id WHERE contract_solution = 'approved'").list();
+            List<Client> listClient = new ArrayList<Client>();
+
+            for (Object[] result : query){
+                Client client = (Client) result[0];
+                listClient.add(client);
+            }
+
+            return listClient;
+        }
+    }
+
+    public List<Contract> getContractSubscribe(ContractStatus contractStatus) {
+
+        try (Session session = sessionFactory.openSession()) {
+
+            Query<Contract> query = session.createQuery("from Contract where contract_status = :contract_status");
+            query.setParameter("contract_status", contractStatus.toString());
 
             return query.list();
         }
