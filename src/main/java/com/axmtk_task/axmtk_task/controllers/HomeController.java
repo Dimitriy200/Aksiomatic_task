@@ -263,10 +263,23 @@ public class HomeController {
         this.dbManager.init();
         List<Client> allClients = this.dbManager.getAllClient();
 
-        Gson gson = new Gson();
-        String jsonArray = gson.toJson(allClients);
-
         System.out.println("ПОЛУЧЕНИЕ СПИСКА ВСЕХ ПОЛЬЗОВАТЕЛЕЙ, ДЛИНА = " + allClients.size());
+        return allClients;
+    }
+
+    @GetMapping("/getClientOnNamePhonPassport")
+    @ResponseBody
+    public List<Client> getClientOnNamePhonPassport(@RequestParam("client_name") String client_name,
+                                      @RequestParam("passport_data") String passport_data,
+                                      @RequestParam("phone_number") String phone_number) throws Exception{
+
+        this.dbManager = new DBManager();
+        this.dbManager.init();
+        List<Client> allClients = this.dbManager.getClientOnNamePhonPassport(client_name,
+                                                                            passport_data,
+                                                                            phone_number);
+
+        System.out.println("ПОЛУЧЕНИЕ СПИСКА ПОЛЬЗОВАТЕЛЕЙ ПО ИМЕНИ, НОМЕРУ И ПАСПОРТУ, ДЛИНА = " + allClients.size());
         return allClients;
     }
 

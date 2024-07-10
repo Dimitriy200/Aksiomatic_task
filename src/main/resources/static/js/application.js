@@ -132,7 +132,39 @@ function getAllClients(){
 
 
 function getClientsOnNamePonePassport(){
+    var client_name = document.getElementById('ClientsOnName').value;
+    var client_url = "client_name=";
+    var get_client_name = client_url.concat(client_name); // client_name.innerText
 
+    var passport_data = document.getElementById('ClientsOnPassport').value;
+    var passport_data_url = "&passport_data=";
+    var get_passport_data = passport_data_url.concat(passport_data);
+
+    var phone_number = document.getElementById('ClientsOnPone').value;
+    var phone_number_url = "&phone_number=";
+    var get_phone_number = phone_number_url.concat(phone_number);
+
+    var main_Url = "http://localhost:8080/getClientOnNamePhonPassport?";
+
+    var res_Url = main_Url.concat(get_client_name, get_passport_data, get_phone_number);
+
+//    window.location.href = res_Url;
+
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open( "GET", res_Url, false ); // false for synchronous request
+    xmlHttp.send( null );
+
+    listUsers = JSON.parse(xmlHttp.responseText);
+
+    for(var i = 0; i < listUsers.length; i++){
+        for (var key in listUsers[i]) {
+        document.write(key + " = ")
+           for (var j= 0; j<listUsers[i][key].length; j++) {
+               document.write(listUsers[i][key][j] + "   ");
+           }
+        }
+           document.write("<br>");
+    }
 }
 
 

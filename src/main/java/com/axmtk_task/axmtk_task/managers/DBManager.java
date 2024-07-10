@@ -84,14 +84,34 @@ public class DBManager {
 //        }
 //    }\
 
-        public void updateContract(Contract contract){
-            try (Session session = sessionFactory.openSession()) {
-                session.beginTransaction();
-                Contract oldcontract = session.get(Contract.class, contract.getContract_id());
-                oldcontract.setContract_status(contract.getContract_status());
-                oldcontract.setContract_data(contract.getContract_data());
-                session.getTransaction().commit();
-            }
+    public void updateContract(Contract contract){
+        try (Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+            Contract oldcontract = session.get(Contract.class, contract.getContract_id());
+            oldcontract.setContract_status(contract.getContract_status());
+            oldcontract.setContract_data(contract.getContract_data());
+            session.getTransaction().commit();
+        }
+    }
+
+    public List<Client> getClientOnNamePhonPassport(String client_name,
+                                                    String passport_data,
+                                                    String phone_number) {
+
+        try (Session session = sessionFactory.openSession()) {
+//            Query<Client> query = session.createQuery("FROM Client WHERE "
+//                                                        + "client_name = " + client_name + " AND "
+//                                                        + "passport_data = " + passport_data + " AND "
+//                                                        + "phone_number = " + phone_number
+//                                                        , Client.class);
+            Query<Client> query = session.createQuery("from Client where client_name = :client_name AND passport_data = :passport_data AND phone_number = :phone_number");
+            query.setParameter("client_name", client_name);
+            query.setParameter("passport_data", passport_data);
+            query.setParameter("phone_number", phone_number);
+//            Contract getContract = session.find(Contract.class, contract.getContract_id());
+
+            return query.list();
+        }
     }
 
     public void addClient(Client client ) {
