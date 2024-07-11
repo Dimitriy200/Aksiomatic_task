@@ -1,13 +1,11 @@
 package com.axmtk_task.axmtk_task.controllers;
 
-import com.axmtk_task.axmtk_task.models.Client;
-import com.axmtk_task.axmtk_task.models.Contract;
+import com.axmtk_task.axmtk_task.models.AppTable;
 import com.axmtk_task.axmtk_task.managers.DBManager;
 import com.axmtk_task.axmtk_task.models.ContractStatus;
 import com.axmtk_task.axmtk_task.models.SolutionStatus;
 import com.axmtk_task.axmtk_task.services.CreditSolutionService;
 import com.axmtk_task.axmtk_task.services.CreditSolution;
-import com.google.gson.Gson;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.apache.poi.xwpf.usermodel.XWPFRun;
@@ -18,7 +16,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.io.ByteArrayOutputStream;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -30,9 +27,7 @@ public class HomeController {
 
     static Logger LOGGER = Logger.getLogger(HomeController.class.getName());
 
-    private List<Client> clientList = new LinkedList<Client>();
-    private List<Contract> contractList = new LinkedList<Contract>();
-//    private List<byte[]> contractDataList = new LinkedList<byte[]>();
+    private List<AppTable> appTableList = new LinkedList<AppTable>();
     private DBManager dbManager;
 
     /*
@@ -80,8 +75,6 @@ public class HomeController {
                                             + " " + credit_amount
         );
 
-//        byte contract_data = 111;
-
         XWPFDocument document = new XWPFDocument();
         XWPFParagraph paragraph = document.createParagraph();
         XWPFRun run = paragraph.createRun();
@@ -109,7 +102,6 @@ public class HomeController {
         byte[] contract_data = out.toByteArray();
 
         long long_credit_amount = Long.parseLong(credit_amount);
-//        Byte contract_data = Byte.parseByte();
 
         /*
         Logic solution
@@ -120,59 +112,44 @@ public class HomeController {
         CreditSolutionService creditSolutionService = new CreditSolutionService(new CreditSolution(long_credit_amount));
         SolutionStatus resultSolution = creditSolutionService.getSolutionStatus();
 
-        Contract new_contract = new Contract(contract_data,
-                long_credit_amount,
-                ContractStatus.notSubscribe.toString(),
-                resultSolution.toString());
-
-        Client new_client = new Client(client_name,
-                passport_data,
-                family_status,
-                address,
-                phone_number,
-                employment_information,
-                new_contract);
+        AppTable newAppTable = new AppTable(client_name,
+                                                passport_data,
+                                                family_status,
+                                                address,
+                                                phone_number,
+                                                employment_information,
+                                                ContractStatus.notSubscribe.toString(),
+                                                resultSolution.toString(),
+                                                contract_data,
+                                                long_credit_amount);
 
         this.dbManager = new DBManager();
         this.dbManager.init();
 
         if (resultSolution == SolutionStatus.approved){
-            this.clientList.add(new_client);
-            this.contractList.add(new_contract);
+            this.appTableList.add(newAppTable);
 
             System.out.println("ПАРАМЕТРЫ NEW_CLIENT:"
-                    + " " + new_client.getClient_id()
-                    + " " + new_client.getClient_name()
-                    + " " + new_client.getPassport_data());
+                    + " " + newAppTable.getAppId()
+                    + " " + newAppTable.getUserName()
+                    + " " + newAppTable.getPassport_data());
 
-            System.out.println("ПАРАМЕТРЫ NEW_CONTRACT:"
-                    + " " + new_contract.getContract_id()
-                    + " " + new_contract.getContract_status()
-                    + " " + new_contract.getCredit_amount());
-
-            this.dbManager.addContract(new_contract);
-            this.dbManager.addClient(new_client);
+            this.dbManager.addAppTable(newAppTable);
 
             System.out.println("ВОЗВРАЩАЮ ССЫЛКУ НА НОВУЮ HTML");
             return new RedirectView("approved");
 
         }else{
             System.out.println("ПАРАМЕТРЫ NEW_CLIENT:"
-                    + " " + new_client.getClient_id()
-                    + " " + new_client.getClient_name()
-                    + " " + new_client.getPassport_data());
+                    + " " + newAppTable.getAppId()
+                    + " " + newAppTable.getUserName()
+                    + " " + newAppTable.getPassport_data());
 
-            System.out.println("ПАРАМЕТРЫ NEW_CONTRACT:"
-                    + " " + new_contract.getContract_id()
-                    + " " + new_contract.getContract_status()
-                    + " " + new_contract.getCredit_amount());
             System.out.println("ВОЗВРАЩАЮ ССЫЛКУ НА НОВУЮ HTML denied");
 
-            this.clientList.add(new_client);
-            this.contractList.add(new_contract);
+            this.appTableList.add(newAppTable);
 
-            this.dbManager.addContract(new_contract);
-            this.dbManager.addClient(new_client);
+            this.dbManager.addAppTable(newAppTable);
 
             return new RedirectView("denied");
         }
@@ -189,42 +166,7 @@ public class HomeController {
     @GetMapping("/get_contract_doc")
     public @ResponseBody byte[] test_get_file(Model model) throws Exception {
 
-//        WordprocessingMLPackage wordMLPackage = WordprocessingMLPackage.createPackage();
-//        MainDocumentPart mainDocumentPart = wordMLPackage.getMainDocumentPart();
-
-//        mainDocumentPart.addStyledParagraphOfText("Title", "Hello World!");
-//        mainDocumentPart.addParagraphOfText("Welcome To Baeldung");
-
-//        File exportFile = new File("welcome.docx");
-//        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-//        mainDocumentPart.marshal(baos);
-
-//        byte[] fileContent = Files.readAllBytes(exportFile.toPath());
-
-//        XWPFDocument doc = new XWPFDocument();
-//        ByteArrayOutputStream out = new ByteArrayOutputStream();
-//        doc.write(out);
-//        XWPFTable table = doc.createTable(3, 3);
-//        table.getRow(1).getCell(1).setText("EXAMPLE OF TABLE");
-//        table.getRow(2).getCell(2).setText("only text");
-
-//        FileOutputStream out = new FileOutputStream("simpleTable.docx");
-//        doc.write(out);
-//        out.close();
-
-//        XWPFDocument document = new XWPFDocument();
-//        XWPFParagraph paragraph = document.createParagraph();
-//        XWPFRun run = paragraph.createRun();
-//        run.setText("Test Text");
-//        run.addBreak();
-//        ByteArrayOutputStream out = new ByteArrayOutputStream();
-//
-//        document.write(out);
-//        out.close();
-//        document.close();
-//        byte[] fileContent = out.toByteArray();
-
-        byte[] fileContent = this.contractList.getLast().getContract_data();
+        byte[] fileContent = this.appTableList.getLast().getContract_data();
         System.out.println("ОТПРАВКА ФАЙЛА КЛИЕНТУ");
         return fileContent;
     }
@@ -250,26 +192,22 @@ public class HomeController {
 
         byte [] newContractData = fileName.getBytes();
 
-//        Contract contract = this.dbManager.getAllContract().getLast();
-        Contract contract = this.dbManager.getContract(this.contractList.getLast());
-        contract.setContract_status(ContractStatus.subscribe.toString());
-        contract.setContract_data(newContractData);
+        AppTable oldAppTable = this.dbManager.getAppTable(this.appTableList.getLast());
+        oldAppTable.setContract_status(ContractStatus.subscribe.toString());
+        oldAppTable.setContract_data(newContractData);
 
-//        this.dbManager.deleteContract(this.contractList.getLast());
-        this.dbManager.updateContract(contract);
-
-        this.contractList.clear();
-        this.clientList.clear();
+        this.dbManager.updateAppTable(oldAppTable);
+        this.appTableList.clear();
 
         return new RedirectView("/subscribe");
     }
 
     @GetMapping("/allUsers")
-    public @ResponseBody List<Client> getAllUsers(){
+    public @ResponseBody List<AppTable> getAllUsers(){
 
         this.dbManager = new DBManager();
         this.dbManager.init();
-        List<Client> allClients = this.dbManager.getAllClient();
+        List<AppTable> allClients = this.dbManager.getAllAppTable();
 
         System.out.println("ПОЛУЧЕНИЕ СПИСКА ВСЕХ ПОЛЬЗОВАТЕЛЕЙ, ДЛИНА = " + allClients.size());
         return allClients;
@@ -277,13 +215,13 @@ public class HomeController {
 
     @GetMapping("/getClientOnNamePhonPassport")
     @ResponseBody
-    public List<Client> getClientOnNamePhonPassport(@RequestParam("client_name") String client_name,
+    public List<AppTable> getClientOnNamePhonPassport(@RequestParam("client_name") String client_name,
                                       @RequestParam("passport_data") String passport_data,
                                       @RequestParam("phone_number") String phone_number) throws Exception{
 
         this.dbManager = new DBManager();
         this.dbManager.init();
-        List<Client> allClients = this.dbManager.getClientOnNamePhonPassport(client_name,
+        List<AppTable> allClients = this.dbManager.getAppNamePhonePassport(client_name,
                                                                             passport_data,
                                                                             phone_number);
 
@@ -293,11 +231,11 @@ public class HomeController {
 
     @GetMapping("/getClientApproved")
     @ResponseBody
-    public List<Client> getClientApproved(){
+    public List<AppTable> getClientApproved(){
 
         this.dbManager = new DBManager();
         this.dbManager.init();
-        List<Client> allClients = this.dbManager.getClientApproved();
+        List<AppTable> allClients = this.dbManager.getAppTableApproved();
 
         System.out.println("ПОЛУЧЕНИЕ СПИСКА ПОЛЬЗОВАТЕЛЕЙ ПО СТАТУСУ ОДОБРЕНИЯ, ДЛИНА = " + allClients.size());
         return allClients;
@@ -305,11 +243,11 @@ public class HomeController {
 
     @GetMapping("/getContractSubscribe")
     @ResponseBody
-    public List<Contract> getContractSubscribe(){
+    public List<AppTable> getContractSubscribe(){
 
         this.dbManager = new DBManager();
         this.dbManager.init();
-        List<Contract> contracts = this.dbManager.getContractSubscribe(ContractStatus.subscribe);
+        List<AppTable> contracts = this.dbManager.getAppTableSubscribe(ContractStatus.subscribe);
 
         System.out.println("ПОЛУЧЕНИЕ СПИСКА ПОЛЬЗОВАТЕЛЕЙ ПО СТАТУСУ ОДОБРЕНИЯ, ДЛИНА = " + contracts.size());
         return contracts;

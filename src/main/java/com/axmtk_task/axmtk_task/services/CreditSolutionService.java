@@ -26,6 +26,5 @@ public class CreditSolutionService {
         else{
             return SolutionStatus.denied;
         }
-
      }
 }
